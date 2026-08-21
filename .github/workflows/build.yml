@@ -1,0 +1,26 @@
+name: Java Build Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Triggers automatically on any push or merge to the main branch
+
+jobs:
+  build-and-verify:
+    name: Compile and Verify Library
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Azul Zulu JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'zulu'  # Uses Azul Zulu OpenJDK
+          cache: 'maven'        # Caches dependencies to make builds faster
+
+      - name: Build and Verify with Maven
+        # Runs compilation and unit tests to ensure everything is stable
+        run: mvn clean verify
